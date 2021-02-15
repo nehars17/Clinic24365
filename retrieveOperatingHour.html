@@ -1,0 +1,172 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Operating Hours{% endblock %}
+
+{% block content %}
+<section style="text-align:center">
+<h1>Retrieve Operating Hours</h1>
+
+    <hr>
+    <br>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Opening Time</th>
+        <th>Closing Time</th>
+        <th><a href="/createOperatingHour" class="btn btn-warning">Update</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Monday</td>
+        {% if 'Mon' in operating_hour_dict %}
+        {% if operating_hour_dict['Mon'][0] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Mon'][0] != None %}
+        <td>{{ operating_hour_dict['Mon'][0] }}</td>
+        {% elif operating_hour_dict['Mon'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if operating_hour_dict['Mon'][1] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Mon'][1] != None %}
+        <td>{{ operating_hour_dict['Mon'][1] }}</td>
+        {% elif operating_hour_dict['Mon'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Mon' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+      <tr>
+        <td>Tuesday</td>
+        {% if 'Tue' in operating_hour_dict %}
+        {% if operating_hour_dict['Tue'][0] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Tue'][0] != None %}
+        <td>{{ operating_hour_dict['Tue'][0] }}</td>
+        {% elif operating_hour_dict['Tue'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if operating_hour_dict['Tue'][1] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Tue'][1] != None %}
+        <td>{{ operating_hour_dict['Tue'][1] }}</td>
+        {% elif operating_hour_dict['Tue'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Tue' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+      <tr>
+        <td>Wednesday</td>
+        {% if 'Wed' in operating_hour_dict %}
+        {% if operating_hour_dict['Wed'][0] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Wed'][0] != None %}
+        <td>{{ operating_hour_dict['Wed'][0] }}</td>
+        {% elif operating_hour_dict['Wed'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if operating_hour_dict['Wed'][1] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Wed'][1] != None %}
+        <td>{{ operating_hour_dict['Wed'][1] }}</td>
+        {% elif operating_hour_dict['Wed'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Wed' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+      <tr>
+        <td>Thursday</td>
+        {% if 'Thu' in operating_hour_dict %}
+        {% if operating_hour_dict['Thu'][0] == '' %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Thu'][0] != None %}
+        <td>{{ operating_hour_dict['Thu'][0] }}</td>
+        {% elif operating_hour_dict['Thu'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if 'Thu' in operating_hour_dict %}
+        {% if operating_hour_dict['Thu'][1] == '' %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Thu'][1] != None %}
+        <td>{{ operating_hour_dict['Thu'][1] }}</td>
+        {% elif operating_hour_dict['Thu'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Thu' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+      <tr>
+        <td>Friday</td>
+        {% if 'Fri' in operating_hour_dict %}
+        {% if operating_hour_dict['Fri'][0] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Fri'][0] != None %}
+        <td>{{ operating_hour_dict['Fri'][0] }}</td>
+        {% elif operating_hour_dict['Fri'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if operating_hour_dict['Fri'][1] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Fri'][1] != None %}
+        <td>{{ operating_hour_dict['Fri'][1] }}</td>
+        {% elif operating_hour_dict['Fri'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Fri' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+      <tr>
+        <td>Saturday</td>
+        {% if 'Sat' in operating_hour_dict %}
+        {% if operating_hour_dict['Sat'][0] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Sat'][0] != None %}
+        <td>{{ operating_hour_dict['Sat'][0] }}</td>
+        {% elif operating_hour_dict['Sat'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if operating_hour_dict['Sat'][1] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Sat'][1] != None %}
+        <td>{{ operating_hour_dict['Sat'][1] }}</td>
+        {% elif operating_hour_dict['Sat'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Sat' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+      <tr>
+        <td>Sunday</td>
+        {% if 'Sun' in operating_hour_dict %}
+        {% if operating_hour_dict['Sun'][0] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Sun'][0] != None %}
+        <td>{{ operating_hour_dict['Sun'][0] }}</td>
+        {% elif operating_hour_dict['Sun'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        
+        {% if operating_hour_dict['Sun'][1] == None %}
+        <td>Off</td>
+        {% elif operating_hour_dict['Sun'][1] != None %}
+        <td>{{ operating_hour_dict['Sun'][1] }}</td>
+        {% elif operating_hour_dict['Sun'] == '' %}
+        <td>Off</td>
+        {% endif %}
+        {% endif %}
+        <td><a href="/updateOperatingHour/{{ 'Sun' }}" class="btn btn-warning">Update</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</section>
+{% endblock %}

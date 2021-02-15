@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+{% block title %}Login page{% endblock %}
+
+{% block head %}
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/Log-in.css')}}">
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/nicepage.css')}}">
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+
+{% endblock %}
+
+{% block content %}
+<section class="u-clearfix u-palette-5-light-2 u-section-2" id="sec-c360">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-clearfix u-expanded-width u-gutter-100 u-layout-wrap u-layout-wrap-1">
+          <div class="u-layout">
+            <div class="u-layout-row">
+              <div class="u-align-left u-container-style u-layout-cell u-size-30 u-layout-cell-1">
+                <div class="u-container-layout u-container-layout-1">
+                  <h1 class="u-text u-text-1">For Public<br>
+                  </h1>
+                  <div class="u-expanded-width u-form u-form-1">
+                    <form action="https://nicepage.com/editor/Forms/Process" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form" redirect="true" redirect-url="145859" redirect-address="/Main-public.html">
+                      <input type="hidden" id="siteId" name="siteId" value="145719">
+                      <input type="hidden" id="pageId" name="pageId" value="145799">
+                      <div class="u-form-group u-form-name u-form-group-1">
+                        <label for="name-e6e2" class="u-form-control-hidden u-label">Name</label>
+                        <input type="text" placeholder="NRIC/Fin No." id="name-e6e2" name="nric" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                      </div>
+                      <div class="u-form-email u-form-group u-form-group-2">
+                        <label for="email-e6e2" class="u-form-control-hidden u-label">Email</label>
+                        <input type="email" placeholder="Password" id="email-e6e2" name="password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                      </div>
+                      <div class="u-form-checkbox u-form-group u-form-group-3">
+                        <input type="checkbox" id="checkbox-96de" name="checkbox" value="On">
+                        <label for="checkbox-96de" class="u-label">Remember me<br>
+                        </label>
+                      </div>
+                      <div class="u-align-left u-form-group u-form-submit u-form-group-4">
+                        <a href="#" class="u-border-2 u-border-palette-1-base u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-base u-radius-10 u-white u-btn-1">Log in</a>
+                        <input type="submit" value="submit" class="u-form-control-hidden">
+                      </div>
+                      <div class="u-form-send-message u-form-send-success"></div>
+                      <div class="u-form-send-error u-form-send-message"></div>
+                      <input type="hidden" value="" name="recaptchaResponse">
+                    </form>
+                  </div>
+                  <a href="https://nicepage.com" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-2">Forgot your password?</a>
+                </div>
+              </div>
+              <div class="u-container-style u-layout-cell u-size-30 u-layout-cell-2">
+                <div class="u-container-layout u-container-layout-2">
+                  <h1 class="u-text u-text-2">For Clinic</h1>
+                  <div class="u-expanded-width u-form u-form-2">
+                    <form action="https://nicepage.com/editor/Forms/Process" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form" redirect="true" redirect-url="145989" redirect-address="/Main-clinic.html">
+                      <input type="hidden" id="siteId" name="siteId" value="145719">
+                      <input type="hidden" id="pageId" name="pageId" value="145799">
+                      <div class="u-form-group u-form-name u-form-group-5">
+                        <label for="name-e6e2" class="u-form-control-hidden u-label">Name</label>
+                        <input type="text" placeholder="Clinic ID" id="name-e6e2" name="clinic_id" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                      </div>
+                      <div class="u-form-email u-form-group u-form-group-6">
+                        <label for="email-e6e2" class="u-form-control-hidden u-label">Email</label>
+                        <input type="email" placeholder="Password" id="email-e6e2" name="password" class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white" required="">
+                      </div>
+                      <div class="u-align-left u-form-group u-form-submit u-form-group-7">
+                        <a href="#" class="u-border-2 u-border-palette-1-base u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-1-base u-radius-10 u-white u-btn-3">Log in</a>
+                        <input type="submit" value="submit" class="u-form-control-hidden">
+                      </div>
+                      <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
+                      <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
+                      <input type="hidden" value="" name="recaptchaResponse">
+                    </form>
+                  </div>
+                  <a href="https://nicepage.com" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-palette-1-base u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-palette-1-base u-btn-4">Forgot your clinic ID or password?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+
+<!--        <div class="mon">-->
+<!--        <h5 style="text-align:center">Monday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="tues">-->
+<!--        <h5 style="text-align:center">Tuesday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="wed">-->
+<!--        <h5 style="text-align:center">Wednesday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="thur">-->
+<!--        <h5 style="text-align:center">Thursday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="fri">-->
+<!--        <h5 style="text-align:center">Friday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="sat">-->
+<!--        <h5 style="text-align:center">Saturday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="sun">-->
+<!--        <h5 style="text-align:center">Sunday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+
+
+<!--    <form method="POST" action="">-->
+<!--    <div class="container" id="operating-hours">-->
+<!--        <h2 style="text-align:center">Operating Hours</h2>-->
+<!--        <p>-->
+<!--            <b>Off Days:</b> Leave the operating hours and break as empty-->
+<!--        </p>-->
+<!--        <div class="mon">-->
+<!--        <h5 style="text-align:center">Monday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.mon_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="tues">-->
+<!--        <h5 style="text-align:center">Tuesday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.tues_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="wed">-->
+<!--        <h5 style="text-align:center">Wednesday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.wed_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="thur">-->
+<!--        <h5 style="text-align:center">Thursday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.thur_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="fri">-->
+<!--        <h5 style="text-align:center">Friday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.fri_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="sat">-->
+<!--        <h5 style="text-align:center">Saturday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sat_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        <div class="sun">-->
+<!--        <h5 style="text-align:center">Sunday</h5>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_open, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_close, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_break_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.sun_break_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="container" id="off-days" style="height:500px">-->
+<!--        <h2 style="text-align:center">Off Days</h2>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.off_start, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.off_end, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.reason, class="form-control") }}-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="container" id="id-password" style="height:500px">-->
+<!--        <h2 style="text-align:center">Clinic ID & Password</h2>-->
+<!--        <p>-->
+<!--            <b>Clinic ID:</b> New Clinic ID will be emailed to your email.-->
+<!--        </p>-->
+<!--        <button class="btn btn-primary">Request New Clinic ID</button>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.password, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.cfm_password, class="form-control") }}-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="container" id="others" style="height:500px">-->
+<!--        <h2 style="text-align:center">Others</h2>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.name, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.address, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.email, class="form-control") }}-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            {{ render_field(form.phone, class="form-control") }}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    </form>-->

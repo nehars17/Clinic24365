@@ -1,0 +1,124 @@
+{% extends "publicbase.html" %}
+{% block title %}All Appointments{% endblock %}
+
+{% block content %}
+<style>
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+<section style="text-align:center">
+<h1>Retrieve Appointments</h1>
+
+    <hr>
+    <br>
+<div>
+
+  <table class="table table-striped">
+    <thead>
+
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Clinic</th>
+        <th>Reason</th>
+          <th></th>
+          <th></th>
+        <th><a href="/createAppointment" class="btn btn-warning">Add</a></th>
+
+      </tr>
+
+    </thead>
+
+
+    <tbody>
+    {% for appointment in appointment_list %}
+      <tr>
+        <td>{{appointment.get_date_of_arrival()}}</td>
+        <td>{{appointment.get_time()}}</td>
+        <td>{{ appointment.get_clinic() }}</td>
+        <td>{{appointment.get_message()}}</td>
+
+
+        <td><a href="/appointmentConfirmation/{{appointment_list.index(appointment)}}" class="btn btn-warning">View</a></td>
+        <td><a href="/appointmentUpdate/{{appointment_list.index(appointment)}}" class="btn btn-warning">Update</a></td>
+
+        <td><a id="modaldelete" class="btn btn-danger">Delete</a></td>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Are you sure you want to cancel this appointment</p>
+      <a href="/appointmentDelete/{{appointment_list.index(appointment)}}"><input type="submit" value="Delete" class="btn btn-danger"></a>
+  </div>
+
+</div>
+
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+</div>  <script>
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("modaldelete");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+
+
+</script>
+
+
+</section>
+{% endblock %}

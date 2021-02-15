@@ -1,0 +1,437 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Clinic Side - Add Visit{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<head>
+    <style>
+        table#drugsData,
+        table#drugsData thead tr th,
+        table#drugsData tbody tr td,
+        table#drugsData tfoot tr td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+
+        table, th, td {
+          text-align: left;
+        }
+
+
+        #drugsData {
+          empty-cells: hidden;
+        }
+
+        td:empty {
+          visibility: hidden;
+        }
+
+        fieldset {
+          background-color: #e0e0e0;
+        }
+    </style>
+    <script>
+        function visitDateData() {
+          form.visitDate.value = document.getElementById('visitDate').value;
+        }
+
+        function mcDateData() {
+          document.getElementById('mcDate').value = document.getElementById('mcStartDate').value;
+        }
+
+        var drugCount = {{drugCount}}+1;
+
+        function addDrugRow() {
+            trEle = document.createElement("tr");
+            trEle.id = "drugRow"+(drugCount);
+
+            tdName = document.createElement("td");
+            tdPrice = document.createElement("td");
+            tdQty = document.createElement("td");
+            tdAmt = document.createElement("td");
+
+            inputName = document.createElement("input");
+            inputPrice = document.createElement("input");
+            inputQty = document.createElement("input");
+            inputAmt = document.createElement("input");
+
+            inputName.name = "drugName";
+            inputPrice.name = "drugPrice";
+            inputQty.name = "drugQty";
+            inputAmt.name = "drugAmt";
+
+            inputName.id = "drugName" + drugCount;
+            inputPrice.id = "drugPrice" + drugCount;
+            inputQty.id = "drugQty" + drugCount;
+            inputAmt.id = "drugAmt" + drugCount;
+
+            inputName.type = "text";
+            inputPrice.type = "number";
+            inputQty.type = "number";
+            inputAmt.type = "text";
+
+            inputPrice.min = 0;
+            inputQty.min = 0;
+            inputPrice.step = 0.01;
+            inputQty.step = 0.01;
+
+            tdName.appendChild(inputName);
+            tdPrice.appendChild(inputPrice);
+            tdQty.appendChild(inputQty);
+            tdAmt.appendChild(inputAmt);
+
+            trEle.appendChild(tdName);
+            trEle.appendChild(tdPrice);
+            trEle.appendChild(tdQty);
+            trEle.appendChild(tdAmt);
+
+            document.getElementById('drugInput').appendChild(trEle);
+
+           drugCount++;
+        }
+
+        function updateAmt() {
+          document.getElementById("drugAmt").value = parseFloat(parseFloat(document.getElementById("drugPrice").value) * parseFloat(document.getElementById("drugQty").value)).toFixed(2);
+          var c = 1;
+          totalDrugs = parseFloat(document.getElementById("drugAmt").value);
+          while(c<drugCount){
+            var total = parseFloat(document.getElementById("drugPrice"+c).value) * parseFloat(document.getElementById("drugQty"+c).value);
+            document.getElementById("drugAmt"+c).value = parseFloat(total).toFixed(2);
+            totalDrugs += parseFloat(total);
+            c++;
+          }
+          document.getElementById("totalDrugs").value = parseFloat(totalDrugs).toFixed(2);
+
+          if(isNaN(totalDrugs)){
+            document.getElementById("totFee").value = parseFloat(parseFloat(document.getElementById("consultFee").value).toFixed(2));
+          }
+          else{
+            document.getElementById("totFee").value = parseFloat(parseFloat(totalDrugs).toFixed(2)) + parseFloat(parseFloat(document.getElementById("consultFee").value).toFixed(2));
+          }
+
+          if(document.getElementById("copayment").value != 0 && document.getElementById("copayment").value > 0){
+            document.getElementById("cashCollected").value = document.getElementById("copayment").value;
+          }
+
+        }
+
+        function removeDrugRow() {
+          document.getElementById("drugRow"+String(drugCount-1)).remove();
+          if(drugCount+1>0){
+            drugCount--;
+          }
+        }
+
+        function storeDrugs() {
+          var drugName = [];
+          var drugPrice = [];
+          var drugQty = [];
+          var drugAmt = [];
+
+          var count1 = 1;
+          numDrugs = drugCount;
+          if(count1>=numDrugs){
+            //pass
+          }
+          else if(count1<numDrugs){
+            var once = 1;
+              while(count1<numDrugs){
+                var num = String(count1);
+                if (once == 1 && document.getElementById("drugName").value == '' && document.getElementById("drugPrice").value == '' && document.getElementById("drugQty").value == '') {
+                document.getElementById("drugName").value = document.getElementById("drugName"+num).value;
+                document.getElementById("drugPrice").value = document.getElementById("drugPrice"+num).value;
+                document.getElementById("drugQty").value = document.getElementById("drugQty"+num).value;
+                document.getElementById("drugAmt").value = document.getElementById("drugAmt"+num).value;
+                once++;
+              }
+                else if (document.getElementById("drugName"+num).value != '' && document.getElementById("drugPrice"+num).value != '' && document.getElementById("drugQty"+num).value != '') {
+                drugName.push(document.getElementById("drugName"+num).value);
+                drugPrice.push(document.getElementById("drugPrice"+num).value);
+                drugQty.push(document.getElementById("drugQty"+num).value);
+                drugAmt.push(document.getElementById("drugAmt"+num).value);
+                }
+                count1++;
+              }
+          }
+
+          document.getElementById("drugNameList").value = drugName;
+          document.getElementById("drugPriceList").value = drugPrice;
+          document.getElementById("drugQtyList").value = drugQty;
+          document.getElementById("drugAmtList").value = drugAmt;
+
+        }
+
+        windows.onload = updateAmt();
+
+        function validate() {
+            var mcDay = document.getElementById("mcDay");
+            if (parseFloat(mcDay.value) > 0){
+                document.getElementById("mcReason").required = true;
+                document.getElementById("mcStartDate").required = true;
+                return false;
+            }
+            else if (parseFloat(mcDay.value) == 0 || parseFloat(mcDay.value) == 0.0){
+                document.getElementById("mcReason").required = false;
+                document.getElementById("mcStartDate").required = false;
+            }
+
+            var mcReason = document.getElementById("mcReason");
+            var mcStartDate = document.getElementById("mcStartDate");
+
+            if (mcReason.value != '') {
+                document.getElementById("mcDay").required = true;
+                document.getElementById("mcDay").min = 0.1;
+                document.getElementById("mcStartDate").required = true;
+            }
+
+            else if (mcStartDate.value != '') {
+                document.getElementById("mcDay").required = true;
+                document.getElementById("mcDay").min = 0.1;
+                document.getElementById("mcReason").required = true;
+            }
+
+            else {
+                document.getElementById("mcDay").required = false;
+                document.getElementById("mcReason").required = false;
+                document.getElementById("mcDate").required = false;
+                document.getElementById("mcDay").min = 0;
+            }
+
+            var drugName = document.getElementById("drugName");
+            var drugPrice = document.getElementById("drugPrice");
+            var drugQty = document.getElementById("drugQty");
+
+            if (drugName.value != '' && drugPrice.value != '' && drugQty.value != ''){
+                drugPrice.required = true;
+                drugQty.required = true;
+                drugName.required = true;
+            }
+            else if (drugPrice.value == '' && drugQty.value == '' && drugName.value == '') {
+                drugPrice.required = false;
+                drugQty.required = false;
+                drugName.required = false;
+            }
+            else if (drugPrice.value == '' || drugName.value == '' || drugQty.value == '') {
+                drugPrice.required = true;
+                drugQty.required = true;
+                drugName.required = true;
+                return false;
+            }
+
+            if (drugCount > 1) {
+                var i;
+                for (i=1; i < drugCount; i++) {
+                    var drugName = document.getElementById("drugName"+i);
+                    var drugPrice = document.getElementById("drugPrice"+i);
+                    var drugQty = document.getElementById("drugQty"+i);
+
+                    if (drugPrice.value == '' && drugQty.value == '' && drugName.value == '') {
+                        drugPrice.required = false;
+                        drugQty.required = false;
+                        drugName.required = false;
+                    }
+                    else if (drugPrice.value != '' && drugQty.value != '' && drugName.value != '') {
+                        drugPrice.required = false;
+                        drugQty.required = false;
+                        drugName.required = false;
+                    }
+                    else if (drugName.value == '' || drugPrice.value == '' || drugQty.value == ''){
+                        drugPrice.required = true;
+                        drugQty.required = true;
+                        drugName.required = true;
+                        return false;
+                    }
+                }
+            }
+          drugName = [];
+          drugPrice = [];
+          drugQty = [];
+          drugAmt = [];
+
+          var count1 = 1;
+          numDrugs = drugCount;
+          if(count1>=numDrugs){
+            //pass
+          }
+          else if(count1<numDrugs){
+            var once = 1;
+              while(count1<numDrugs){
+              if (once == 1 && document.getElementById("drugName").value == '' && document.getElementById("drugPrice").value == '' && document.getElementById("drugQty").value == '' && document.getElementById("drugName"+count1).value != '' && document.getElementById("drugPrice"+count1).value != '' && document.getElementById("drugQty"+count1).value != '') {
+                document.getElementById("drugName").value = document.getElementById("drugName"+count1).value;
+                document.getElementById("drugPrice").value = document.getElementById("drugPrice"+count1).value;
+                document.getElementById("drugQty").value = document.getElementById("drugQty"+count1).value;
+                document.getElementById("drugAmt").value = document.getElementById("drugAmt"+count1).value;
+                once++;
+              }
+              else if (document.getElementById("drugName"+count1).value != '' && document.getElementById("drugPrice"+count1).value != '' && document.getElementById("drugQty"+count1).value != '') {
+                    drugName.push(document.getElementById("drugName"+count1).value);
+                    drugPrice.push(document.getElementById("drugPrice"+count1).value);
+                    drugQty.push(document.getElementById("drugQty"+count1).value);
+                    drugAmt.push(document.getElementById("drugAmt"+count1).value);                 }
+              count1++;
+              }
+          }
+
+          document.getElementById("drugNameList").value = drugName;
+          document.getElementById("drugPriceList").value = drugPrice;
+          document.getElementById("drugQtyList").value = drugQty;
+          document.getElementById("drugAmtList").value = drugAmt;
+        }
+    </script>
+</head>
+
+<form method="POST" action="">
+    <fieldset>
+        <table>
+            <tr>
+                <th>Patient Name</th>
+                <td>{{ render_field(form.ptName) }}</td>
+            </tr>
+            <tr>
+                <th>NRIC</th>
+                <td>{{ render_field(form.nric) }}</td>
+            </tr>
+            <tr>
+                <th>Visit Date</th>
+                <td>
+                <div id="flight">
+                 <input type="date" name="visitDate" id="visitDate" onchange="visitDateData()" value={{keepDate}} required/>
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Charge Type</th>
+                <td>{{ render_field(form.chargeType) }}</td>
+            </tr>
+            <tr>
+                <th>Allergies</th>
+                <td>{{ render_field(form.allergies, value="None") }}</td>
+            </tr>
+            <tr>
+                <th>Insurance Company</th>
+                <td>{{ render_field(form.company, value="None") }}</td>
+            </tr>
+        </table>
+        <a href="/deleteVisit/{{nric}}" onclick="return confirm('Are you sure you want to delete patient with NRIC {{nric}}?');"><span style="width:100px;background-color:red;float:right;position:relative;top:-140px;border-radius:5px;border:1px solid black;text-align:center;color:white;white-space:nowrap;">Delete User</span></a>
+    </fieldset>
+
+    <br>
+
+    <fieldset>
+        <table>
+            <tr>
+                <th>MC Day</th>
+                <td>{{ render_field(form.mcDay, type="number", step=0.01, min=0) }}</td>
+            </tr>
+            <tr>
+                <th>MC Reason</th>
+                <td>{{ render_field(form.mcReason) }}</td>
+            </tr>
+            <tr class="container">
+                <th>MC Start Date</th>
+                <td>
+                    <div id="flight">
+                      <input type="date" name="arrival" value={{mcDate}} id="mcStartDate" onchange="mcDateData()"/><input type="button" onclick="getElementById('mcStartDate').value=''" value="Remove"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Primary Diagnosis</th>
+                <td>{{ render_field(form.priDiagnosis) }}</td>
+            </tr>
+            <tr>
+                <th>Secondary Diagnosis</th>
+                <td>{{ render_field(form.secDiagnosis) }}</td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <br>
+
+    <nobr>
+    <fieldset>
+        <div class="container">
+            <small style="float:right;">If no drugs, just leave empty.</small>
+            <table id="drugsData" onchange="storeDrugs()">
+                <thead>
+                    <tr>
+                        <th>Drug Name</th>
+                        <th>Unit Price</th>
+                        <th>Qty</th>
+                        <th>Total Amt</th>
+                    </tr>
+                </thead>
+
+                <tbody id="drugInput" onchange="updateAmt()">
+                    <tr>
+                        <td>{{ render_field(form.drugName) }}</td>
+                        <td>{{ render_field(form.drugPrice, type='number', min=0, step=0.01) }}</td>
+                        <td>{{ render_field(form.drugQty, type='number', min=0, step=0.01) }}</td>
+                        <td>{{ render_field(form.drugAmt) }}</td>
+                    </tr>
+                    {% if drugCount>=1 %}
+                    {% for c in range(drugCount) %}
+                    <tr id="drugRow{{c+1}}">
+                        <td><input type="text" id="drugName{{c+1}}" value="{{drugNameList[c]}}"></td>
+                        <td><input type="text" id="drugPrice{{c+1}}" value="{{drugPriceList[c]}}"></td>
+                        <td><input type="text" id="drugQty{{c+1}}" value="{{drugQtyList[c]}}"></td>
+                        <td><input type="text" id="drugAmt{{c+1}}" value="{{drugAmtList[c]}}"></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Total:</td>
+                        <td>{{ render_field(form.totalDrugs) }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+                <input type="button" value="Remove" style="float:right;" onclick="removeDrugRow(), updateAmt(), storeDrugs()">
+                <input type="button" value="Add" style="float:right;" onclick="addDrugRow()">
+            <div style="display:none;">{{render_field(form.mcDate) }}{{ render_field(form.drugNameList) }}{{ render_field(form.drugPriceList) }}{{ render_field(form.drugQtyList) }}{{ render_field(form.drugAmtList) }}</div>
+        </div>
+    </fieldset>
+    </nobr>
+
+    <br>
+
+    <fieldset>
+        <table>
+            <tr>
+                <th>Referral</th>
+                <td>{{ render_field(form.referral) }}</td>
+            </tr>
+            <tr>
+                <th>Consultation Fee</th>
+                <td>{{ render_field(form.consultFee, value=20.0, type="number", step=0.01, onchange="updateAmt()") }}</td>
+            </tr>
+            <tr>
+                <th>Total Fee</th>
+                <td>{{ render_field(form.totFee, onchange="updateAmt()") }}</td>
+            </tr>
+            <tr>
+                <th>Total Claim</th>
+                <td>{{ render_field(form.claim, type="number", step=0.01) }}</td>
+            </tr>
+            <tr>
+                <th>Copayment</th>
+                <td>{{ render_field(form.copayment, onchange="updateAmt()", type="number", step=0.01) }}</td>
+            </tr>
+            <tr>
+                <th>Cash Collected</th>
+                <td>{{ render_field(form.cashCollected, type="number", step=0.01) }}</td>
+            </tr>
+        </table>
+    </fieldset>
+    <div class="container">
+        {{ render_field(form.remarks) }}
+    </div>
+    <div style="text-align:center;">
+        <input onclick="validate()" type="submit" value="Save"> <a href="/searchPtVisits" onclick="return confirm('Discard your changes?');"><button type="button" value="cancel">Cancel</button></a>
+    </div>
+</form>
+{% endblock %}

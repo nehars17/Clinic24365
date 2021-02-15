@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Login page - Public{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<section class = 'otp'>
+  <h1 style="text-align:center">OTP - Public</h1>
+  <hr>
+  <br>
+  <div class = 'public col-sm-6 container-fluid'>
+    <div class="container" style="text-align:center">
+        <p>A One Time Pin will be sent to your email within 5 minutes.</p>
+    <br>
+    <form method="POST" action="">
+      <div class="form-group">
+        {{ render_field(form.otp, class="form-control") }}
+      </div>
+      <input type="submit" value="Submit" class="btn btn-primary"/>
+    </form>
+        <br>
+    <h6>Request for a new OTP <a href="/publicOTP/{{ nric_hashed }}" onclick="return alert('A new OTP has been sent!');">here</a>!</h6>
+    </div>
+    </div>
+</section>
+
+<script>
+  {% if fail == 1 %}
+  alert('Invalid OTP')
+  {% endif %}
+</script>
+
+{% endblock %}
+

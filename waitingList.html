@@ -1,0 +1,152 @@
+{% extends "clinicDbase.html" %}
+{% block title %}Waiting List{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<section style="text-align:center">
+<h1>Online Consultation Waiting List</h1>
+    <hr>
+    <br>
+    <div>
+  {% if count == 0 %}
+  <p>There are no appointments.</p>
+  {% elif count == 1 %}
+  <p>There is 1 appointment.</p>
+  {% else %}
+  <p>There are {{ count }} appointments.</p>
+  {% endif %}
+</div>
+<table class="table table-striped" id="waitinglisttable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Name</th>
+        <th>Symptoms</th>
+        <th>Details</th>
+          <th>Form</th>
+          <th>Room</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for schedule in schedule_list %}
+      <tr>
+          <td>{{ schedule[0].get_date() }}</td>
+          <td>{{ schedule[0].get_timing() }}</td>
+        <td>{{ schedule[1].get_name() }}</td>
+        <td>{{ schedule[0].get_symptoms() }}</td>
+        <td><a href="/waitingListDetails/{{ schedule_list.index(schedule) }}/" class="btn btn-primary">View</a></td>
+        <td><a href="/consultationFormPatient/{{ schedule_list.index(schedule) }}" class="btn btn-warning">Create</a></td>
+        <td><a href="/sendPtEmail/{{schedule[0].get_nric()}}" class="btn btn-danger">Create</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+</section>
+<script>
+window.addEventListener("load", sortTable);
+
+function deleteAppointment(r) {
+  alert('Are you sure you want to delete this patient?');
+  var i = r.parentNode.parentNode.rowIndex;
+  document.getElementById("doctorscheduletable").deleteRow(i);
+}
+
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, name, purpose, i, txtValue;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("doctorscheduletable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    name = tr[i].getElementsByTagName("td")[2];
+    purpose = tr[i].getElementsByTagName("td")[3];
+    if (name || purpose) {
+      nameValue = name.textContent || name.innerText;
+      purposeValue = purpose.textContent || purpose.innerText;
+      if (nameValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }
+      else if (purposeValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }
+      else {
+        tr[i].style.display = "none";
+      }
+    }
+
+  }
+}
+
+function sortTable() {
+  var table, rows, switching, switchingAgain, i, x, y, a, b, shouldSwitch, shouldSwitchAgain;
+  table = document.getElementById("doctorscheduletable");
+  switching = true;
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("td")[0];
+      y = rows[i + 1].getElementsByTagName("td")[0];
+      // Check if the two rows should switch place:
+      if (x.innerHTML > y.innerHTML) {
+        // If so, mark as a switch and break the loop:
+        shouldSwitch = true;
+        break;
+        }
+      }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+  switchingAgain = true;
+  while (switchingAgain) {
+    // Start by saying: no switching is done:
+    switchingAgain = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitchAgain = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("td")[0];
+      y = rows[i + 1].getElementsByTagName("td")[0];
+      a = rows[i].getElementsByTagName("td")[1];
+      b = rows[i + 1].getElementsByTagName("td")[1];
+      // Check if the two rows should switch place:
+        if (x.innerHTML == y.innerHTML) {
+       if (a.innerHTML > b.innerHTML) {
+        // If so, mark as a switch and break the loop:
+        shouldSwitchAgain = true;
+        break;
+       }
+      }
+      }
+    if (shouldSwitchAgain) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switchingAgain = true;
+    }
+  }
+}
+</script>
+{% endblock %}

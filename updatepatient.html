@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Display Patient Details{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<section>
+<h1>Update Details</h1>
+
+<form method="POST" action="">
+    <div class="form-group">
+    {{ render_field(form.name, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.email, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.phone, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.gender, class="form-control") }}
+  </div>
+
+  <input type="submit" value="Submit" class="btn btn-primary"/>
+</form>
+
+</section>
+{% endblock %}

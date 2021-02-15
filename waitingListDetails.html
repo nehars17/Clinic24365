@@ -1,0 +1,54 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Waiting List Details{% endblock %}
+
+{% block content %}
+<section style="text-align:left">
+<h1 style="text-align:center">{{ schedule_details[1].get_name() }}'s Details</h1>
+    <hr>
+    <br>
+<div >
+    <div>
+        Name: {{ schedule_details[1].get_name() }}
+    </div>
+    <div>
+        Appointment Date: {{ schedule_details[0].get_date() }}
+    </div>
+    <div>
+        Appointment Time: {{ schedule_details[0].get_timing() }}
+    </div>
+    <div>
+        Symptoms: {{ schedule_details[0].get_symptoms() }}
+    </div>
+    <div>
+        Notes: {{ schedule_details[0].get_notes() }}
+    </div>
+    <div>
+        <h4>Others</h4>
+        <div>
+        NRIC: {{ schedule_details[1].get_nric() }}
+        </div>
+        <div>
+        Phone Number: {{ schedule_details[1].get_phone() }}
+        </div>
+        <div>
+            Email Address: <a href="mailto: {{ schedule_details[1].get_email() }}">{{ schedule_details[1].get_email() }}</a>
+        </div>
+        <div>
+        Area of Stay: {{ schedule_details[1].get_area() }}
+        </div>
+        <div>
+        Postal Code: Singapore {{ schedule_details[1].get_postal_code() }}
+        </div>
+        <div>
+        Date of Birth: {{ schedule_details[1].get_birthdate() }}
+        </div>
+        <div>
+        Gender: {{ schedule_details[1].get_gender() }}
+        </div>
+    </div>
+    <div>
+    <a href="/waitingList" class="btn btn-primary">Back</a>
+    </div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% block title %}Video Call{% endblock %}
+
+{% block content %}
+<style>
+    #local-video {
+        width: 200px;
+        height: 200px;
+        z-index: 1;
+        position: absolute;
+        top: 50px;
+        left: 20px;
+    }
+
+    #remote-video {
+        width: 1200px;
+        height: 600px;
+        position: relative;
+        left: -200px;
+    }
+
+    #passwordInput {
+        float: right;
+        position: relative;
+        top: -600px;
+        left: -10px;
+    }
+
+    #muteVid {
+        float: right;
+        cursor: pointer;
+        position: relative;
+        top: -95px;
+        left: 380px;
+    }
+
+    #muteAudio {
+        float: right;
+        cursor: pointer;
+        position: relative;
+        top: -100px;
+        left: 340px;
+    }
+
+    #video-call-div {
+    }
+
+    #username-input {
+        width: 670px;
+    }
+
+    #startCallButton {
+        width: 200px;
+        border-radius: 10px;
+        margin-right: 220px;
+    }
+
+    #endCall {
+        float: right;
+        position: relative;
+        top: -95px;
+        left: 680px;
+    }
+
+    .call-action-div {
+        background-color: white;
+    }
+
+    @media only screen and (max-width: 600px) {
+        #username-input {
+            position: relative;
+            left: 160px;
+            top: -90px;
+            width: 270px;
+            font-size: 12px;
+        }
+
+        #labelPass {
+            position: relative;
+            left: 45px;
+            top: -60px;
+            font-size: 12px;
+        }
+
+        #startCallButton {
+            position: relative;
+            left: 130px;
+            top: -89px;
+            font-size: 12px;
+        }
+
+        #local-video {
+            width: 150px;
+            position: absolute;
+            top: 20px;
+            left: 3px;
+        }
+
+        #remote_video {
+            position: relative;
+            width: 600px;
+            left: -500px;
+        }
+
+        #muteVid {
+            position: absolute;
+            top: 570px;
+            left: 40px;
+        }
+
+        #muteAudio {
+            position: absolute;
+            top: 565px;
+            left: 250px;
+        }
+
+        #endCall {
+            position: absolute;
+            top: 570px;
+            left: 148px;
+        }
+    }
+
+</style>
+
+<section style="position:relative;top:60px;">
+    <div style="background-color:grey;height:600px;">
+        <div id="video-call-div">
+            <video muted style="-webkit-transform:scaleX(-1);transform:-scaleX(-1);" id="local-video" autoplay></video>
+            <video style="-webkit-transform:scaleX(-1);transform:-scaleX(-1);" id="remote-video" autoplay></video>
+        </div>
+
+        <div id="mechanics">
+            <div id="passwordInput">
+                <label id="labelPass" for="username-input" style="display:block;">Enter password here:</label>
+                <input placeholder="Enter password..."
+                        type="text"
+                        id="username-input" /><br>
+                <button class="btn btn-primary" id="startCallButton" style="float:right;" onclick="joinCall()">Join Call</button>
+            </div>
+
+            <div class="call-action-div">
+                <a id="muteVid" onclick="muteVideo()"><img width="80px" id="vidImg" src="{{ url_for('static', filename='assets/img/vid1.png') }}"></a>
+                <a id="muteAudio" onclick="muteAudio()"><img id="audioImg" src="{{ url_for('static', filename='assets/img/mic1.png') }}"></a>
+                <a id="endCall" onclick="disconnectAlert()" href="/afterConsult"><img width="85px" src="{{ url_for('static', filename='assets/img/endCall.png') }}"></a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+
+{% for schedule in schedule_list %}
+    var nric = "{{ schedule[0].get_nric() }}";
+{% endfor %}
+
+window.onload = function() {
+    document.getElementById('endCall').href = "/afterConsult/" + nric;
+}
+
+function disconnectAlert() {
+    alert('Disconnected');
+}
+
+const webSocket = new WebSocket("ws://4.tcp.ngrok.io:16860")
+
+webSocket.onmessage = (event) => {
+    handleSignallingData(JSON.parse(event.data))
+}
+
+function handleSignallingData(data) {
+    switch (data.type) {
+        case "offer":
+            peerConn.setRemoteDescription(data.offer)
+            createAndSendAnswer()
+            break
+        case "candidate":
+            peerConn.addIceCandidate(data.candidate)
+    }
+}
+
+function createAndSendAnswer () {
+    peerConn.createAnswer((answer) => {
+        peerConn.setLocalDescription(answer)
+        sendData({
+            type: "send_answer",
+            answer: answer
+        })
+    }, error => {
+        console.log(error)
+    })
+}
+
+function sendData(data) {
+    data.username = username
+    webSocket.send(JSON.stringify(data))
+}
+
+
+let localStream
+let peerConn
+let username
+
+function joinCall() {
+
+    username = document.getElementById("username-input").value
+
+    document.getElementById("video-call-div")
+    .style.display = "inline"
+
+    navigator.getUserMedia({
+        video: {
+            frameRate: 24,
+            width: {
+                min: 480, ideal: 720, max: 1280
+            },
+            aspectRatio: 1.33333
+        },
+        audio: true
+    }, (stream) => {
+        localStream = stream
+        document.getElementById("local-video").srcObject = localStream
+
+        let configuration = {
+            iceServers: [
+                {
+                    "urls": ["stun:stun.l.google.com:19302",
+                    "stun:stun1.l.google.com:19302",
+                    "stun:stun2.l.google.com:19302"]
+                }
+            ]
+        }
+
+        peerConn = new RTCPeerConnection(configuration)
+        peerConn.addStream(localStream)
+
+        peerConn.onaddstream = (e) => {
+            document.getElementById("remote-video")
+            .srcObject = e.stream
+        }
+
+        peerConn.onicecandidate = ((e) => {
+            if (e.candidate == null)
+                return
+
+            sendData({
+                type: "send_candidate",
+                candidate: e.candidate
+            })
+        })
+
+        sendData({
+            type: "join_call"
+        })
+
+    }, (error) => {
+        console.log(error)
+    })
+}
+
+let isAudio = true
+function muteAudio() {
+    isAudio = !isAudio
+    localStream.getAudioTracks()[0].enabled = isAudio
+}
+
+let isVideo = true
+function muteVideo() {
+    isVideo = !isVideo
+    localStream.getVideoTracks()[0].enabled = isVideo
+}
+</script>
+
+{% endblock %}

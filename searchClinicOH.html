@@ -1,0 +1,127 @@
+{% extends "publicbase.html" %}
+{% block title %}Off Days{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<section style="text-align:center">
+<h1>Search Clinic Operating Hours</h1>
+    <hr>
+    <br>
+<div>
+    <div>
+        <form method="POST" action="">
+
+                <div class="input-group">
+                <label class="form-label" for="searchInput">Search: </label>
+                <input id="searchInput" type="search" class="form-control" placeholder="Location or Clinic Name" onkeyup="myFunction()" />
+            </div>
+            <br>
+    <div class="form-group">
+        <div class="input-group">
+            {{ render_field(form.selected_date, class="form-control") }}
+            <input class="input-group-addon btn btn-primary" type="submit" value="Search">
+        </div>
+    </div>
+        </form>
+</div>
+<table class="table table-striped" id="searchohtable">
+    <thead>
+      <tr>
+        <th>Clinic Name</th>
+        <th>Location</th>
+        <th>Opening Time</th>
+        <th>Closing Time</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for clinic in clinics_list %}
+      <tr>
+        <td>{{ clinic[0].get_name() }}</td>
+          <td>{{ clinic[0].get_area() }}</td>
+          {% if selected_date in clinic[3] %}
+            <td>Off</td>
+            <td>Off</td>
+          {% elif clinic[1][selected_day][0] == None %}
+            <td>Off</td>
+            <td>Off</td>
+          {% else %}
+            <td>{{ clinic[1][selected_day][0] }}</td>
+            <td>{{ clinic[1][selected_day][1] }}</td>
+          {% endif %}
+        <td>
+          <a href="/searchClinicOHdetails/{{ clinics_list.index(clinic) }}/" class="btn btn-primary">View</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</section>
+<script>
+window.addEventListener("load", sortTable);
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, clinicname, location, i, txtValue;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("searchohtable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    clinicname = tr[i].getElementsByTagName("td")[0];
+    location = tr[i].getElementsByTagName("td")[1];
+    if (clinicname || location) {
+      clinicnameValue = clinicname.textContent || clinicname.innerText;
+      locationValue = location.textContent || location.innerText;
+      if (clinicnameValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }
+      else if (locationValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      }
+      else {
+        tr[i].style.display = "none";
+      }
+    }
+
+  }
+}
+
+function sortTable() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("searchohtable");
+  switching = true;
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("td")[0];
+      y = rows[i + 1].getElementsByTagName("td")[0];
+      // Check if the two rows should switch place:
+      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+        // If so, mark as a switch and break the loop:
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+</script>
+{% endblock %}

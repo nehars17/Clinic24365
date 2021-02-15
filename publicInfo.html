@@ -1,0 +1,47 @@
+{% extends "publicbase.html" %}
+{% block title %}Public Info{% endblock %}
+
+{% block content %}
+
+<!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <h1 style="text-align:center">Patient's Information</h1>
+    <hr>
+    <br>
+      <div class="container-fluid">
+
+          <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
+            <p>What would you like to view?</p>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+              <h4 class="title"><a href="/updatePublicDetails">Personal Details</a></h4>
+              <p class="description">Edit your personal details here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-gift"></i></div>
+              <h4 class="title"><a href="/retrieveMCA">Medical Conditions & Allergies</a></h4>
+              <p class="description">View and edit your medical conditions and allergies here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/updatePublicPassword">Password</a></h4>
+              <p class="description">Change your password here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/deletePublic">Delete Account</a></h4>
+              <p class="description">Delete your account here.</p>
+            </div>
+
+          </div>
+        </div>
+
+    </section>
+<!-- End About Section -->
+
+
+{% endblock %}

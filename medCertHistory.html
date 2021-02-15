@@ -1,0 +1,39 @@
+{% extends "publicbase.html" %}
+{% block title %}Consultation History{% endblock %}
+
+{% block content %}
+<section>
+<h1 class="display-4">Retrieve Consultation History</h1>
+<div>
+  <table class="table table-striped">
+    <thead>
+
+      <tr>
+        <th>Date of Consultation</th>
+
+          <th></th>
+      </tr>
+    </thead>
+
+
+    <tbody>
+    {% for appointments in appointments_list %}
+      <tr>
+        <td>{{ appointments.get_date_of_arrival() }}</td>
+
+
+        <td><a href="/viewMedCert/{{ appointments_list.index(appointments) }}" class="btn btn-warning">View</a></td>
+      </tr>
+        {% endfor %}
+    {% for bookings in bookings_list %}
+      <tr>
+        <td>{{ bookings.get_date() }}</td>
+
+
+        <td><a href="/viewMedCert/{{ bookings_list.index(bookings) }}" class="btn btn-warning">View</a></td>
+      </tr>
+        {% endfor %}
+      </table>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Clinic ID{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<section style="text-align:center">
+    <h1>Request New Clinic ID</h1>
+    <hr>
+    <br>
+    <form method="POST" action="{{url_for('update_clinic_id')}}">
+    <div class="container" id="clinicid">
+        <p>
+            <b>Clinic ID:</b> New Clinic ID will be emailed to your email.
+        </p>
+        <input type="submit" value="Request New" class="btn btn-primary" onclick="return alert('The new clinic ID has been sent to your email, please login with the new clinic ID.')"/>
+    </div>
+    </form>
+</section>
+{% endblock %}

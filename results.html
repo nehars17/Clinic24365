@@ -1,0 +1,194 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Update Patient Visits {% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<head>
+    <style>
+        table, th, td {
+          border-collapse: collapse;
+          border: 1px solid black;
+          padding: 5px;
+          background-color: white;
+        }
+
+        tbody tr td {
+          height: 5px;
+          overflow: hidden;
+          white-space: nowrap;
+          table-layout: fixed;
+        }
+
+        #visitDate,
+        #visitType,
+        #visitNric {
+            width: 100px;
+        }
+
+        #visitNo {
+            width: 200px;
+        }
+
+        #visitName,
+        #visitRemarks {
+            width: 300px;
+        }
+
+        #visitFee {
+            width: 70px;
+        }
+
+        #visitMc {
+            width: 50px;
+        }
+
+        @media only screen and (max-width:600px) {
+            fieldset#searchField,
+            form#searchInputs {
+                width: 355px;
+                height: 160px;
+            }
+
+            h1#ClinicName {
+                position: relative;
+                left: -45px;
+                top: 10px;
+            }
+
+            #startDate,
+            #endDate {
+                width: 145px;
+                font-size: 15px;
+            }
+
+            #searchFor {
+                width: 193px;
+            }
+
+            #searchByFor {
+                position: relative;
+                left: -15px;
+            }
+
+            #wholeDiv {
+                position: relative;
+                left: -30px;
+            }
+
+            table#tableInformation {
+                font-size: 8px;
+                position: relative;
+
+            }
+
+            #visitDate {
+                width: 58px;
+            }
+
+            #visitType{
+                width: 30px;
+            }
+
+            #visitNric {
+                width: 50px;
+            }
+
+            #visitNo {
+                width: 40px;
+            }
+
+            #visitName {
+                width: 75px;
+            }
+
+            #visitRemarks {
+                width: 45px;
+            }
+
+            #visitFee {
+                width: 30px;
+            }
+
+            #visitMc {
+                width: 30px;
+            }
+
+        }
+    </style>
+    <script>
+        function updateStart() {
+          document.getElementById('fromDate').value = document.getElementById('startDate').value;
+        }
+
+        function updateEnd() {
+          document.getElementById('toDate').value = document.getElementById('endDate').value;
+        }
+    </script>
+</head>
+<section id="hero" class="d-flex align-items-center">
+
+    <div id="wholeDiv" class="container" style="margin-left:8%;">
+
+        <h1 id="ClinicName" style="padding-bottom:10px;display:inline-block;float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clinic's Name&nbsp;&nbsp;&nbsp;</h1>
+
+        <fieldset id="searchField" style="background-color:white;display:inline-block;">
+
+            <form method="POST" id="searchInputs" action="" style="float:left;display:inline-block;padding-left:10px;border:1px solid black;">
+                <div>
+                    <nobr>
+                        Visit Date Between
+                        <div id="flight">
+                          <input type="date" name="startDate" onchange="updateStart()" id="startDate"/>
+                        and
+                          <input type="date" name="endDate" data-value="7" onchange="updateEnd()" id="endDate"/>
+                        </div>
+                    </nobr>
+                </div>
+                <br>
+                <div class="container" id="searchByFor">
+                    {{ render_field(form.searchBy) }} {{ render_field(form.searchFor) }}<input type="submit" value="Search">
+                </div>
+                <div style="display:none;">
+                    {{ render_field(form.fromDate) }}
+                    {{ render_field(form.toDate) }}
+                </div>
+            </form>
+
+        </fieldset>
+
+    <br>
+    <div>
+        <table id="tableInformation" style="margin-top:10px;table-layout:fixed;width:90%;text-align:center;margin-left:auto;margin-right:auto;">
+            <thead style="background-color:#dedede;">
+            <tr>
+                <th id="visitDate">Visit Date</th>
+                <th id="visitNo">Visit No</th>
+                <th id="visitType">Type</th>
+                <th id="visitName">Patient Name</th>
+                <th id="visitNric">NRIC</th>
+                <th id="visitFee">Total Fee</th>
+                <th id="visitMc">MC Days</th>
+                <th id="visitRemarks">Remarks</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for pt in pt_visits %}
+                <tr>
+                    <td>{{ pt_visits[pt].get_visit_date() }}</td>
+                    <td>{{ pt_visits[pt].get_visit_num() }}</td>
+                    <td>{{ pt_visits[pt].get_charge_type() }}</td>
+                    <td><a href="/updateVisit/{{ pt }}">{{ pt_visits[pt].get_fullname() }}</a></td>
+                    <td>{{ pt_visits[pt].get_nric() }}</td>
+                    <td>{{ pt_visits[pt].get_total_fee() }}</td>
+                    <td>{{ pt_visits[pt].get_mc_day() }}</td>
+                    <td>{{ pt_visits[pt].get_remarks() }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    </div>
+</section>
+{% endblock %}

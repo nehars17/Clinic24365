@@ -1,0 +1,38 @@
+{% extends "publicbase.html" %}
+{% block title %}Medical Conditions & Allergies{% endblock %}
+
+{% block content %}
+<section style="text-align:center">
+<h1>Retrieve Medical Conditions and Allergies</h1>
+    <hr>
+    <br>
+<div>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Medical Condition/Allergy</th>
+        <th>Description</th>
+        <th></th>
+        <th><a href="/createMCA" class="btn btn-warning">Add</a></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for mca in mca_list %}
+      <tr>
+        <td>{{ mca.get_type() }}</td>
+        <td>{{ mca.get_mca() }}</td>
+        <td>{{ mca.get_descriptions() }}</td>
+        <td><a href="/updateMCA/{{ mca_list.index(mca) }}/" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="/deleteMCA/{{ mca_list.index(mca) }}/" method="POST">
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return alert('Are you sure you want to delete the {{ mca.get_mca() }} {{ mca.get_type() }}?');">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</section>
+{% endblock %}

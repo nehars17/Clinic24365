@@ -1,0 +1,47 @@
+{% extends "publicbase.html" %}
+{% block title %}{% endblock %}
+
+{% block content %}
+<section style="text-align:left">
+<h1 style="text-align:center">{{ clinic_info[0].get_name() }}'s Details</h1>
+    <hr>
+    <br>
+<div >
+    <div>
+        <h4><b>Address:</b> {{ clinic_info[0].get_address()}}</h4>
+    </div>
+    <div>
+        <h4><b>Contact Number:</b> {{ clinic_info[0].get_phone()}}</h4>
+    </div>
+    <div>
+        <h4><b>Email:</b> <a href="mailto: {{clinic_info[0].get_email()}}">{{ clinic_info[0].get_email()}}</a></h4>
+    </div>
+    <div>
+        <h4><b>Operating Hours:</b></h4>
+        <ul style="list-style-type: none">
+            {% for day in clinic_info[1] %}
+            {% if clinic_info[1][day][0] == None %}
+            <li><b>{{ day }}: </b>Off</li>
+            {% else %}
+            <li><b>{{ day }}: </b> {{ clinic_info[1][day][0] }} - {{ clinic_info[1][day][1] }} </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h4><b>Off Days:</b></h4> <br>
+        <ul>
+            {% for start in clinic_info[2] %}
+            <ul>
+            <li><b>{{ clinic_info[2][start][0] }} to {{ clinic_info[2][start][1] }}</b></li>
+                <li>Reason: {{ clinic_info[2][start][2] }}</li>
+            </ul>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+    <a href="/searchClinicOH" class="btn btn-primary">Back</a>
+    </div>
+</div>
+</section>
+{% endblock %}

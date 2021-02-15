@@ -1,0 +1,38 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Off Days{% endblock %}
+
+{% block content %}
+<section style="text-align:center">
+<h1>Retrieve Off Days</h1>
+    <hr>
+    <br>
+<div>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Start</th>
+        <th>End</th>
+        <th>Reason/Message</th>
+        <th></th>
+        <th><a href="/createOffDay" class="btn btn-warning">Add</a></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for start in off_day_dict %}
+      <tr>
+        <td>{{ off_day_dict[start][0] }}</td>
+        <td>{{ off_day_dict[start][1] }}</td>
+        <td>{{ off_day_dict[start][2] }}</td>
+        <td><a href="/updateOffDay/{{ start }}/" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="/deleteOffDay/{{ start }}/" method="POST">
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return alert('Are you sure you want to delete the off day from {{ off_day_dict[start][0] }} to {{ off_day_dict[start][1] }}?');">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</section>
+{% endblock %}

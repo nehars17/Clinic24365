@@ -1,0 +1,72 @@
+{% extends "publicbase.html" %}
+{% block title %}Expand Consultation History{% endblock %}
+
+{% block content %}
+<section>
+    <table class="table table-striped">
+    <tbody>
+    <tr>
+        <td>
+    <h2>Retrieve Consultation History</h2>
+        <div>
+    <p>
+                Name: {{ user.get_name() }} <br>
+                NRIC: {{ user.get_nric() }} <br><br>
+
+
+                Consultation Type: Physical <br>
+                Consultation Date: {{ appointment.get_date_of_arrival() }} <br>
+                Consultation Time: {{ appointment.get_time() }} <br>
+                Notes: {{ appointment.get_message() }} <br><br>
+
+                Consultation Type: Online <br>
+                Consultation Date: {{ bookings.get_date() }} <br>
+                Consultation Time: {{ bookings.get_timing() }} <br>
+                Notes: {{ bookings.get_notes() }} <br><br>
+
+
+            </p>
+        </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+        <div>
+        {% for history in medcert_list %}
+        <h2>Medical Certificate</h2>
+        <p>
+            {{ history.get_name() }}, {{ history.get_nric() }} <br>
+            is unfit for duty from {{ history.get_startDate() }} to {{ history.get_endDate() }} <br><br>
+
+            Clinic 24/365
+            {% endfor %}
+
+             </p>
+
+        </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div>
+                {% for referral in referral_list %}
+                <h2>Referral</h2>
+                <p>
+                <span style="font-style: italic">Please show this to the organisation you are referred to.</span><br><br>
+                {{ referral.get_name() }}, {{ referral.get_nric() }} <br>
+                has been referred to {{ referral.get_organisation() }} due to the following reason: <br>
+                {{ referral.get_reason() }} <br> <br>
+                {% endfor %}
+
+                Clinic 24/365
+
+                </p>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+</section>
+{% endblock %}
