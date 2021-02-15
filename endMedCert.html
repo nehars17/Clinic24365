@@ -1,0 +1,26 @@
+{% extends "clinicDbase.html" %}
+{% block title %}Display Patient Details{% endblock %}
+
+{% block content %}
+<section>
+<h1>Medical Certificate</h1>
+
+
+<div>
+    <h2>Clinic 24/365</h2>
+    <p>
+        {{ medcert.get_name() }}, {{ medcert.get_nric() }} <br>
+        is unfit for duty from {{ medcert.get_startDate() }} to {{ medcert.get_endDate() }}
+        <br><br>
+
+        Doctor David Lee
+
+         </p>
+
+</div>
+    <button class="btn btn-primary"><a style="color:white;" href="/doctorSchedule">OK</a></button>
+<!--    <button class="btn btn-primary"><a style="color:white" href="/prescription">Update MedCert</a></button>-->
+
+
+</section>
+{% endblock %}

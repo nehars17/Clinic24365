@@ -1,0 +1,36 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Clinic 24/365 - Appointment{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<br>
+<br>
+<h1 class="display-4">ADD ITEMS</h1>
+<p style="color:red;">Only Products that do not require prescription are allowed to be sold</p>
+<form method="POST" action="" enctype="multipart/form-data">
+
+<div class="form-group">
+  <label> Enter Product Image:
+    <input type="file" name="file" required></label>
+</div>
+  <div class="form-group">
+    {{ render_field(form.product_name, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.quantity, class="form-control") }}
+  </div>
+
+  <div class="form-group">
+    {{ render_field(form.price, class="form-control", style="list-style-type:none") }}
+  </div>
+
+
+  <div id="prof">
+    <div class="form-group">
+      {{ render_field(form.product_description, class="form-control") }}
+    </div>
+  </div>
+   <p><input type="submit" value="Submit" class="btn btn-primary"></p>
+</form>
+{% endblock %}

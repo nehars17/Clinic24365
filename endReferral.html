@@ -1,0 +1,27 @@
+{% extends "clinicDbase.html" %}
+{% block title %}Display Patient Details{% endblock %}
+
+{% block content %}
+<section>
+<h1>Referral</h1>
+
+<div>
+    <h2>Clinic 24/365</h2>
+    <p>
+
+        <span style="font-style: italic">Please show this to the organisation you are referred to.</span><br><br>
+        {{ referral.get_name() }}, {{ referral.get_nric() }} <br>
+        has been referred to {{ referral.get_organisation() }} due to the following reason: <br>
+        {{ referral.get_reason() }} <br> <br>
+
+        Clinic 24/365
+
+         </p>
+
+</div>
+    <button class="btn btn-primary"><a style="color:white;" href="/doctorSchedule">Back</a></button>
+<!--   <button class="btn btn-primary"><a style="color:white" href="/createReferral">Update Prescription</a></button>-->
+
+
+</section>
+{% endblock %}

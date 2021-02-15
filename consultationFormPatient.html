@@ -1,0 +1,42 @@
+{% extends "clinicDbase.html" %}
+{% block title %}Clinic Information{% endblock %}
+
+{% block content %}
+
+<!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <h1 style="text-align:center">Create Consultation Form</h1>
+    <hr>
+    <br>
+      <div class="container-fluid">
+
+          <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
+            <p>What would you like to view?</p>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+              <h4 class="title"><a href="/createPrescription/{{ index }}">Prescription</a></h4>
+              <p class="description">Create a prescription for your patient here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-gift"></i></div>
+              <h4 class="title"><a href="/createReferral/{{ index }}">Referral</a></h4>
+              <p class="description">Create a referral for your patient here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/createMedicalCert/{{ index }}">Medical Certificate</a></h4>
+              <p class="description">Create a medical certificate for your patient here.</p>
+            </div>
+
+
+          </div>
+        </div>
+
+    </section>
+<!-- End About Section -->
+
+
+{% endblock %}

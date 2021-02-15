@@ -1,0 +1,552 @@
+{% extends "publicbase.html" %}
+{% block title %}Book an Online Consultation{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<head>
+    <style>
+
+        .symptomCheckbox {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          display: inline-block;
+          text-align: center;
+          margin-right: 3px;
+        }
+
+        #content {
+          font-size: 150%;
+        }
+
+        table.consultation td {
+          width: 750px;
+        }
+
+        table.consultation th {
+        width: 150px;
+        }
+
+        table.symptomsList td {
+          width: 400px;
+          text-align: left;
+        }
+
+        tr.border_top td {
+          border-top: 1px solid black;
+        }
+
+        tr.border_bottom td {
+          border-bottom: 1px solid black;
+        }
+
+        .form-consult {
+            border-radius: 0;
+            box-shadow: none;
+            font-size: 14px;
+            padding: 10px !important;
+            width: auto;
+        }
+
+        table {
+          margin: 10px;
+          table-layout: fixed;
+        }
+
+        #ConsultForm {
+            background-color: white;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #mainTitle {
+            padding-top: 10px;
+            padding-left: 10px;
+        }
+
+        @media only screen and (max-width:600px) {
+            #ConsultForm {
+                width: 100%;
+            }
+
+            table.consultation th, table.consultation {
+                width: 150px;
+            }
+
+            table.consultation td {
+                width: 210px;
+            }
+
+            #scheduleTitle {
+                position: relative;
+                top: 35px;
+            }
+
+            td#dateField {
+                font-size: 1px;
+                width: 100px;
+            }
+
+            table.symptomsList {
+                font-size: 12px;
+            }
+
+            table.symptomsList th {
+                font-size: 18px;
+            }
+        }
+
+        #searchClinic.dropdown {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        #selector {
+          position: fixed;
+          box-shadow: 0 0 0 2px #000000;
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+          margin-top: 2px;
+          max-height: 150px;
+          overflow: auto;
+        }
+
+        #selector button {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          outline: none;
+          font-size: 20px;
+          padding: 10px 20px;
+          cursor: pointer;
+          border: none;
+          display: block;
+          background-color: #ffffff;
+          margin: 0;
+          border-radius: 5px;
+          border-width: 0;
+          width: 100%;
+          text-align: left;
+        }
+
+        #selector button:hover {
+          background-color: #f2f2f2;
+        }
+        #disable {
+  pointer-events: none;
+  background: #f0f0f0;
+  color: #999999;}
+  section { text-align: center; }
+    </style>
+    <script>
+     function storeClinic() {
+        alert(document.getElementById("clinicC").value);
+    }
+        function listClinics(){
+        var location = document.getElementById('location').value;
+        var clinicsList = document.getElementById("listofclinics").innerHTML;
+        clinicsList = clinicsList.slice(1, clinicsList.length-1);
+        clinicsList = clinicsList.split(']');
+        copy = clinicsList;
+
+        dict = {};
+        var i = 0;
+        while(i<clinicsList.length-1){
+          var newList = clinicsList[i].split("'");
+          var a = 3;
+          array = [];
+          while(a<newList.length-1){
+            if(a%2==1){
+              array.push(newList[a]);
+            }
+            a++;
+          }
+          dict[newList[1]] = array;
+          i++;
+        }
+
+        if(location in dict){
+        var b = 0;
+        var selectTag = document.createElement("select");
+        selectTag.classList.add("form-control");
+        selectTag.style.height = "44px";
+        selectTag.id = "clinicC";
+        selectTag.name = "clinic";
+          while(b<dict[location].length){
+            var optionTag = document.createElement("option");
+            optionTag.value = dict[location][b];
+            var node = document.createTextNode(dict[location][b]);
+            optionTag.appendChild(node);
+            selectTag.appendChild(optionTag);
+            b++;
+          }
+        }
+
+        else {
+            var selectTag = document.createElement("select");
+            selectTag.classList.add("form-consult");
+            selectTag.id = "clinicC";
+            selectTag.name = "clinic";
+            var optionTag = document.createElement("option");
+            optionTag.value = "None";
+            var node = document.createTextNode("Select Location");
+            optionTag.appendChild(node);
+            selectTag.appendChild(optionTag);
+        }
+        document.getElementById('changeClinics').innerHTML = "";
+        document.getElementById('changeClinics').appendChild(selectTag);
+        }
+
+        function confirmSymptoms() {
+            var symptoms = ""
+
+            if(document.getElementById('headache').checked) {
+              symptoms += document.getElementById('headache').value + ", ";
+            }
+            if(document.getElementById('rashes').checked) {
+              symptoms += document.getElementById('rashes').value + ", ";
+            }
+            if(document.getElementById('runnynose').checked) {
+              symptoms += document.getElementById('runnynose').value + ", ";
+            }
+            if(document.getElementById('itchiness').checked) {
+              symptoms += document.getElementById('itchiness').value + ", ";
+            }
+            if(document.getElementById('musclepain').checked) {
+              symptoms += document.getElementById('musclepain').value + ", ";
+            }
+            if(document.getElementById('sorethroat').checked) {
+              symptoms += document.getElementById('sorethroat').value + ", ";
+            }
+            if(document.getElementById('cough').checked) {
+              symptoms += document.getElementById('cough').value + ", ";
+            }if(document.getElementById('diarrhea').checked) {
+              symptoms += document.getElementById('diarrhea').value + ", ";
+            }
+            if(document.getElementById('others').value.length != 0) {
+              symptoms += document.getElementById('others').value + ", ";
+            }
+
+            symptoms = symptoms.slice(0, symptoms.length-2);
+
+            document.getElementById("symptoms").value = symptoms;
+        }
+
+        function isLetter(char) {
+            return (/[a-zA-Z]/).test(char);
+        }
+
+        function nricCheck() {
+            var nric = document.getElementById("nric");
+            if (nric.value.length == 9) {
+                if (isLetter(nric.value[0]) && isLetter(nric.value[nric.value.length-1])){
+                    if (!isNaN(nric.value.slice(1, nric.value.length-1))) {
+                        nric.setCustomValidity("");
+                        return;
+                    }
+                }
+            }
+            nric.setCustomValidity("Enter a valid NRIC");
+        }
+
+        window.onload = function() {
+          var today = new Date();
+          var yyyy = today.getFullYear();
+          if ((today.getMonth()+1) < 10) {
+            var mm = '0' + (today.getMonth()+1);
+          }
+          else {
+            var mm = (today.getMonth()+1);
+          }
+          if (today.getDate() < 10) {
+            var dd = '0' + today.getDate();
+          }
+          else {
+            var dd = today.getDate();
+          }
+          var todayDate = yyyy + '-' + mm + '-' + dd;
+
+          var conDate = document.getElementById('date');
+          conDate.value = todayDate;
+          conDate.min = todayDate;
+        }
+
+    </script>
+</head>
+<body style="overflow:scroll;height:auto;">
+<div style="display:none;" id="listofclinics">{{ clinicsList }}</div>
+<div style="display:none">{{ render_field(form.symptoms) }}</div>
+<div id="listClinics"></div>
+<section style="height:auto;" id="hero" class="d-flex align-items-center">
+<div style="float:right;">
+    <h1>&nbsp;</h1>
+    <fieldset id="ConsultForm" style="border:1px solid black;">
+
+    <form method="POST" action="">
+        <table style="text-align:left;" class="consultation">
+            <h1 id="mainTitle" class="display-4">Online Consultation</h1>
+              <tr>
+                  <th>Search a clinic</th>
+                  <td>
+                      <div class="form-group">
+                      {{ render_field(form.searchClinic, class="form-control", autocomplete="off", onkeyup="searchDB(this)") }}
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <th>Location</th>
+                  <td>
+                      <div class="form-group">
+                      {{ render_field(form.location, class="form-control", onchange="listClinics(), displayBooking()", style="height:44px;") }}
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <th>Clinic</th>
+                  <td onchange="displayBooking(), storeClinic()">
+                      <div class="form-group" id="changeClinics">
+                          <select class="form-control", style="height:44px;", id="clinicC">
+                              <option value="">Select Location</option>
+                          </select>
+                      </div>
+                  </td>
+              </tr>
+            <div style="display:none;">{{ render_field(form.clinic) }}</div>
+              <tr>
+                  <th>Fullname</th>
+                  <td>
+                      <div class="form-group">
+                      {{ render_field(form.fullname, class="form-control", id="disable") }}
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <th>NRIC</th>
+                  <td>
+                      <div class="form-group">
+                      {{ render_field(form.nric, class="form-control", id="disable") }}
+                      </div>
+              </tr>
+              <tr>
+                  <th colspan="2" id="scheduleTitle"><h2>Schedule Consultation</h2></th>
+              </tr>
+              <tr>
+                  <td colspan="2" id="dateField">
+                      {{ render_field(form.date, class="form-control", onchange="displayBooking()") }}
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                      <div class="form-group">
+                      {{ render_field(form.timing, style="list-style-type:none;font-size:15px;", class="form-control", style="height:44px;", onchange="displayBooking()") }}
+                      </div>
+                  </td>
+              </tr>
+        </table>
+
+        <div id="bookingsDisplay"></div>
+
+        <div>
+            <table class="symptomsList" style="border-collapse:collapse;">
+                <tr>
+                    <th colspan="4" style="text-align:left;padding-top:10px;">Select your symptoms</th>
+                </tr>
+                <tr class="border_top">
+                    <td><input type="checkbox" value="headache" id="headache" name="symptoms" class="symptomCheckbox">Headache</td>
+                    <td><input type="checkbox" value="rashes" id="rashes" name="symptoms" class="symptomCheckbox">Rashes</td>
+                    <td><input type="checkbox" value="runnynose" id="runnynose" name="symptoms" class="symptomCheckbox">Runny Nose</td>
+                    <td><input type="checkbox" name="symptoms" value="itchiness" id="itchiness" class="symptomCheckbox">Itchiness<br></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="symptoms" value="musclepain" id="musclepain" class="symptomCheckbox">Muscle Pain</td>
+                    <td><input type="checkbox" name="symptoms" value="sorethroat" id="sorethroat" class="symptomCheckbox">Sore Throat</td>
+                    <td><input type="checkbox" name="symptoms" value="cough" id="cough" class="symptomCheckbox">Coughing</td>
+                    <td><input type="checkbox" name="symptoms" value="diarrhea" id="diarrhea" class="symptomCheckbox">Diarrhea</td>
+                </tr>
+                <tr class="border_bottom">
+                    <td colspan="4" style="padding-bottom:5px;">
+                        <div class="form-group">
+                            <label for="others">Others: </label><input id="others" type="text" class="form-control"/>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <table style="width:97%;">
+                <td style="width:100%;">
+                <div class="form-group">
+                <span>{{ render_field(form.notes, class="form-control") }}</span>
+                </div>
+                </td>
+            </table>
+        </div>
+        <div class="appointment">
+            <div class="form-group">
+                <button style="float:right;margin:10px;" type="submit" value="submit" class="btn btn-primary" onclick="confirmSymptoms(), nricCheck(), storeClinic()">Submit</button>
+            </div>
+        </div>
+    </form>
+    </fieldset>
+</div>
+</section>
+</body>
+
+<script>
+    function storeClinic() {
+        alert(document.getElementById("clinicC").value);
+    }
+
+    function displayBooking() {
+        let date = document.getElementById("date").value;
+        date = date.substr(8) + "-" + date.substr(5, 2) + "-" + date.substr(0, 4);
+        string = "You have chosen <span style='color:red'>" + document.getElementById("clinicC").value + "</span> at <span style='color:red'>" + document.getElementById("location").value + "</span>.<br>Date: <span style='color:red'>" + date + "</span><br>Timing: <span style='color:red'>" + document.getElementById("timing").value + "</span>";
+        document.getElementById("bookingsDisplay").innerHTML = string;
+    }
+
+    var modal = document.getElementById("overlay");
+    var modal1 = document.getElementById("overlay1");
+
+    var btn = document.getElementById("listSymptoms");
+    var btn1 = document.getElementById("listTimings");
+
+    var span1 = document.getElementsByClassName("close")[0];
+    var span2 = document.getElementsByClassName("close")[1];
+
+    var span3 = document.getElementsByClassName("close1")[0];
+    var span4 = document.getElementsByClassName("close1")[1];
+
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    btn1.onclick = function() {
+      modal1.style.display = "block";
+    }
+
+    span1.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    span2.onclick = function() {
+      modal.style.display = "none";
+    }
+
+<!--    span3.onclick = function() {-->
+<!--      modal1.style.display = "none";-->
+<!--    }-->
+<!--    span4.onclick = function() {-->
+<!--      document.getElementById("date").value = document.getElementById("selectDate").value;-->
+<!--      modal1.style.display = "none";-->
+<!--    }-->
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+<!--    window.onclick = function(event) {-->
+<!--      if (event.target == modal1) {-->
+<!--        modal1.style.display = "none";-->
+<!--      }-->
+<!--    }-->
+
+function searchDB(elem) {
+    let selector = document.getElementById("selector");
+    // Check if input is empty
+    if (elem.value.trim() !== "") {
+        elem.classList.add("dropdown"); // Add dropdown class (for the CSS border-radius)
+        // If the selector div element does not exist, create it
+        if (selector == null) {
+            selector = document.createElement("div");
+            selector.id = "selector";
+            elem.parentNode.appendChild(selector);
+            // Position it below the input element
+            selector.style.left = elem.getBoundingClientRect().left + "px";
+            selector.style.top = elem.getBoundingClientRect().bottom + "px";
+            selector.style.width = elem.getBoundingClientRect().width + "px";
+        }
+        // Clear everything before new search
+        selector.innerHTML = "";
+        // Variable if result is empty
+        let empty = true;
+        let db = document.getElementById('listofclinics').innerHTML;
+        db = JSON.parse(db.replace(/'/g, "\""));
+        for (item in db) {
+            // Join the db elements in one string
+            let str = [item.toLowerCase(), String(db[item]).toLowerCase()].join();
+
+            // If exists, create an item (button)
+            if (str.indexOf(elem.value.toLowerCase()) !== -1) {
+                let opt = document.createElement("button");
+                opt.setAttribute("onclick","insertValue(this);")
+                if (typeof db[item][0] !== "undefined") {
+                    opt.innerHTML = db[item][0];
+                    selector.appendChild(opt);
+                    empty = false;
+                }
+            }
+        }
+        // If result is empty, display a disabled button with text
+        if (empty == true) {
+            let opt = document.createElement("button");
+            opt.disabled = true;
+            opt.innerHTML = "No results";
+            selector.appendChild(opt);
+        }
+    }
+    // Remove selector element if input is empty
+    else {
+        if (selector !== null) {
+            selector.parentNode.removeChild(selector);
+            elem.classList.remove("dropdown");
+        }
+    }
+}
+
+function insertValue(elem) {
+    let db = document.getElementById('listofclinics').innerHTML;
+    db = JSON.parse(db.replace(/'/g, "\""));
+
+    let location, clinic;
+    for (item in db) {
+        for (i in db[item]) {
+            if (db[item][i] == elem.innerHTML) {
+                location = item;
+                clinic = elem.innerHTML;
+            }
+        }
+    }
+    if (location == "AMK") {
+        location = "Ang Mo Kio";
+    }
+    var options = document.getElementById('location').children;
+    for (var i=0;i<options.length;i++) {
+        if (location == options[i].innerHTML) {
+            locationIndex = i;
+            break;
+        }
+    }
+
+    for (item in db) {
+        for (i in db[item]) {
+            if (db[item][i] == clinic) {
+                clinicIndex = i;
+                break;
+            }
+        }
+    }
+
+    document.getElementById('location').selectedIndex = locationIndex;
+    listClinics();
+    document.getElementById('clinicC').selectedIndex = clinicIndex;
+
+    search = document.getElementById('searchClinic');
+    window.search.classList.remove("dropdown");
+    window.search.value = elem.innerHTML;
+    elem.parentNode.parentNode.removeChild(elem.parentNode);
+}
+</script>
+{% endblock %}

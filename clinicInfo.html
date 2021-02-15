@@ -1,0 +1,59 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Clinic Information{% endblock %}
+
+{% block content %}
+
+<!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <h1 style="text-align:center">Clinic Details</h1>
+    <hr>
+    <br>
+      <div class="container-fluid">
+
+          <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
+            <p>What would you like to view?</p>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-fingerprint"></i></div>
+              <h4 class="title"><a href="/retrieveOperatingHour">Operating Hours</a></h4>
+              <p class="description">View and edit the operating hour of your clinic here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-gift"></i></div>
+              <h4 class="title"><a href="/retrieveOffDay">Off Day(s)</a></h4>
+              <p class="description">Add or edit an off day here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/updateClinicID">Clinic ID</a></h4>
+              <p class="description">Request for a new Clinic ID here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/updateClinicPassword">Password</a></h4>
+              <p class="description">Change your password here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/updateClinicOthers">Others</a></h4>
+              <p class="description">Edit your clinic details here.</p>
+            </div>
+
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-atom"></i></div>
+              <h4 class="title"><a href="/deleteClinic">Delete</a></h4>
+              <p class="description">Delete your clinic account here.</p>
+            </div>
+
+          </div>
+        </div>
+
+    </section>
+<!-- End About Section -->
+
+
+{% endblock %}

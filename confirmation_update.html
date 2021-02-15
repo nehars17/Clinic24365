@@ -1,0 +1,47 @@
+{% extends "publicbase.html" %}
+{% block title %}Clinic 24/365 - Update{% endblock %}
+
+
+{% block content %}
+<section>
+<div class="u-clearfix u-sheet u-sheet-1">
+    {% for patient in patient_list %}
+
+        <p class="u-text u-text-1"><b>
+            <font style="font-size: 2.25rem;">CLINIC 24/365<br>
+            </font></b>RE: Returning To Clinic Booking Confirmation Update
+          {% for user in user_list %}
+            <br>Dear Mr/Ms {{ user.get_name() }},
+             {% endfor %}
+            <br>Your booking to visit
+             {% if patient.get_clinic() == 'JD' %}
+              JD
+        {% elif patient.get_clinic() == 'H' %}
+             Happy
+        {% elif patient.get_clinic() == 'S' %}
+         Sim's
+        {% endif %}
+            clinic has been updated to &nbsp{{patient.get_date_of_arrival()}} at {{patient.get_time()}}.
+
+            {% if patient.get_purpose() == 'M' %}
+              <br>Your purpose of visit: Medical Test/Examination
+        {% elif patient.get_purpose() == 'D' %}
+             <br>Your purpose of visit: Doctor's Consultation
+        {% elif patient.get_purpose() == 'C' %}
+          <br>Your purpose of visit: Collection of Documents
+        {% endif %}
+
+
+
+            <br>Please show this letter to the staff when you visit.
+            <br>If you wish to cancel or change your appointment, please click on the <a href="/Update" class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1" referrerpolicy="origin">link</a> to do so
+            <br>Sincerely,<br>
+            <i><h2 style="font-family: Coronet;">John</h2></i>
+            John Lee
+            <br>Administrative staff
+            <br>CLINIC 24/365
+        </p>
+      {% endfor %}
+</div>
+</section>
+{% endblock %}

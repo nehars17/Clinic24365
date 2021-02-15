@@ -1,0 +1,32 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Login page - Clinic{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<section class = 'delete'>
+  <h1 style="text-align:center">Delete Clinic Account</h1>
+  <hr>
+  <br>
+  <div class = 'clinic col-sm-6 container-fluid'>
+    <div class="container"  style="text-align:center">
+    <br>
+    <form method="POST" action="{{url_for('delete_clinic')}}">
+      <div class="form-group">
+        {{ render_field(form.clinic_id, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.password, class="form-control") }}
+      </div>
+      <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete the account?')"/>
+    </form>
+  </div>
+    </div>
+</section>
+
+<script>
+  {% if fail == 1 %}
+  alert('Invalid ID or Password')
+  {% endif %}
+</script>
+{% endblock %}

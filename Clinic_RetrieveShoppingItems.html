@@ -1,0 +1,127 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Product Inventory{% endblock %}
+
+{% block content %}
+<style>
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+ img{
+width:100px;
+height:100px;
+}
+</style>
+<section style="text-align:center">
+<h1>Pharmacy Inventory</h1>
+
+    <hr>
+    <br>
+<div>
+
+  <table class="table table-striped">
+    <thead>
+
+      <tr>
+        <th>Product Image</th>
+        <th>Product name</th>
+        <th>Price $</th>
+        <th>Product Description</th>
+        <th>Quantity</th>
+        <th><a href="/CreateShoppingItems" class="btn btn-warning">Add</a></th>
+
+      </tr>
+
+    </thead>
+
+
+    <tbody>
+    {% for items in shopping_list %}
+      <tr>
+        <td><img src="{{items.get_image_location()}}"> </td>
+        <td>{{items.get_product_name()}}</td>
+        <td>{{items.get_price()}}</td>
+        <td>{{items.get_product_description()}}</td>
+        <td>{{items.get_quantity()}}</td>
+
+
+        <td><a href="/shoppingUpdate/{{shopping_list.index(items)}}" class="btn btn-warning">Update</a></td>
+        <td><a id="modaldelete" class="btn btn-danger">Delete</a></td>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Are you sure you want to cancel this appointment</p>
+      <a href="/shoppingDelete/{{shopping_list.index(items)}}"><input type="submit" value="Delete" class="btn btn-danger"></a>
+  </div>
+
+</div>
+
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+</div>  <script>
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("modaldelete");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+
+
+</script>
+
+
+</section>
+{% endblock %}

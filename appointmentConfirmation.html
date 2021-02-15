@@ -1,0 +1,51 @@
+{% extends "publicbase.html" %}
+{% block title %}Clinic 24/365 - Confirmation{% endblock %}
+
+
+{% block content %}
+<section>
+<br>
+<div class="u-clearfix u-sheet u-sheet-1">
+
+
+<table class="table table-striped">
+    <tbody>
+      <tr>
+      <td>
+
+        <p class="u-text u-text-1"><b>
+            <font style="font-size: 2.25rem;">CLINIC 24/365<br>
+            </font></b>RE: Returning To Clinic Booking Confirmation
+            <br>Dear Mr/Ms {{ user.get_name() }},
+            <br>Your booking to visit
+            {{ appointment.get_clinic() }}
+
+             at&nbsp; {{appointment.get_date_of_arrival()}} at {{appointment.get_time()}} has been confirmed.
+
+            {% if appointment.get_purpose() == 'M' %}
+              <br>Your purpose of visit: Medical Test/Examination
+        {% elif appointment.get_purpose() == 'D' %}
+             <br>Your purpose of visit: Doctor's Consultation
+        {% elif appointment.get_purpose() == 'C' %}
+          <br>Your purpose of visit: Collection of Documents
+        {% endif %}
+
+
+
+            <br>Please show this letter to the staff when you visit.
+            <br>
+            <br>Sincerely,
+            <i><h2 style="font-family: Coronet;">John</h2></i>
+            John Lee
+            <br>Administrative staff
+            <br>CLINIC 24/365
+
+</td>
+   </tr>
+
+
+    </tbody>
+</table>
+</div>
+</section>
+{% endblock %}

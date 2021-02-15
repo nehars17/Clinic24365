@@ -1,0 +1,42 @@
+{% extends "clinicDbase.html" %}
+{% block title %}Prescribing medication{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<style>
+    section { text-align: center; }
+    #disable {
+    pointer-events: none;
+    background: #f0f0f0;
+    color: #999999;}
+</style>
+<section>
+<h1 class="display-4">Prescribe Medication</h1>
+
+<form method="POST" action="">
+  <div class="form-group">
+    {{ render_field(form.name, class="form-control", id="disable") }}
+  </div>
+    <div class="form-group">
+    {{ render_field(form.nric, class="form-control", id="disable") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.clinic, class="form-control", id="disable") }}
+  </div>
+    <div class="form-group">
+    {{ render_field(form.symptoms, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.medication, class="form-control") }}
+  </div>
+    <div class="form-group">
+    {{ render_field(form.instructions, class="form-control") }}
+  </div>
+    <div class="form-group">
+    {{ render_field(form.sideEffects, class="form-control") }}
+  </div>
+  <input type="submit" value="Submit" class="btn btn-primary"/>
+</form>
+
+    </section>
+{% endblock %}

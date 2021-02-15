@@ -1,0 +1,26 @@
+{% extends "clinicDbase.html" %}
+{% block title %}Display Patient Details{% endblock %}
+
+{% block content %}
+<section>
+<h1>Prescription Successful</h1>
+
+<div>
+    <p>
+        {{ patient.get_name() }} has {{ patient.get_symptoms() }}
+        and is prescribed with <br>
+        {% for i in meds_list %}
+        {{ i }} <br>
+        {% endfor %}
+
+        Instructions for medication are {{ patient.get_instructions() }} . <br>
+        Side effects are: {{ patient.get_sideEffects() }}
+         </p>
+
+</div>
+    <button class="btn btn-primary"><a style="color:white;" href="/doctorSchedule">Back</a></button>
+    <button class="btn btn-primary"><a style="color:white" href="/prescription">Update Prescription</a></button>
+
+
+</section>
+{% endblock %}

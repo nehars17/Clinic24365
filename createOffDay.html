@@ -1,0 +1,51 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Clinic Information{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<head>
+    <script>
+        window.onload = function() {
+          var today = new Date();
+          var yyyy = today.getFullYear();
+          if ((today.getMonth()+1) < 10) {
+            var mm = '0' + (today.getMonth()+1);
+          }
+          else {
+            var mm = (today.getMonth()+1);
+          }
+          if (today.getDate() < 10) {
+            var dd = '0' + today.getDate();
+          }
+          else {
+            var dd = today.getDate();
+          }
+          var todayDate = yyyy + '-' + mm + '-' + dd;
+
+          var conDate = document.getElementById('date');
+          conDate.value = todayDate;
+          conDate.min = todayDate;
+        }
+     </script>
+</head>
+
+<section style="text-align:center">
+    <h1>Off Days</h1>
+    <hr>
+    <br>
+    <form method="POST" action="">
+    <div class="container" id="off-days" style="height:500px">
+        <div class="form-group">
+            {{ render_field(form.start, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.end, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.reason, class="form-control") }}
+        </div>
+    </div>
+        <input type="submit" value="Save" class="btn btn-primary"/>
+    </form>
+</section>
+{% endblock %}

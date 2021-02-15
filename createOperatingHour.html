@@ -1,0 +1,31 @@
+{% extends "clinicRbase.html" %}
+{% block title %}Clinic Information{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<section style="text-align:center">
+    <h1>Operating Hours</h1>
+    <hr>
+    <br>
+    <form method="POST" action="">
+    <div class="container" id="operating-hours">
+        <p>
+            <b>Off Days:</b> Leave the operating hours and break as empty
+        </p>
+        <div>
+        <div class="form-group">
+            {{ render_field(form.day, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.open, class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.close, class="form-control") }}
+        </div>
+        </div>
+    </div>
+        <input type="submit" value="Save" class="btn btn-primary"/>
+    </form>
+</section>
+{% endblock %}

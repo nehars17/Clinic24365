@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Registration page - Clinic{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<section class = 'login' style="text-align:center">
+  <h1>Registration page for <b>Clinic</b></h1>
+  <hr>
+  <br>
+  <div class = 'public col-sm-6 container-fluid'>
+    <div class="container">
+    <form method="POST" action="">
+      <div class="form-group">
+        {{ render_field(form.name, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.email, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.phone, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.area, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.postal_code, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.unit, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.password, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.cfm_password, class="form-control") }}
+      </div>
+      <input type="submit" value="Register" class="btn btn-primary"/>
+    </form>
+    </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+{% block title %}Pt Side - After Consultation{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+<style>
+    td {
+      text-align: left;
+    }
+
+    div#wholeDiv {
+        width: 50%;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #expiryMonth,
+    #expiryYear {
+        display: block;
+        width: 50%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    #expiryYear {
+        width: 100%;
+    }
+
+    #expiryYearDiv {
+        display: inline-block;
+        float: right;
+        width:50%;
+        position: relative;
+        top: -62px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    #yearError {
+        display: none;
+        color: red;
+        float: right;
+        position: relative;
+        left: 90px;
+    }
+
+    #monthError {
+        display: none;
+        color: red;
+    }
+
+    #visaImage {
+        position: absolute;
+        top: 1330px;
+        left: 1050px;
+    }
+
+    #mastercardImage {
+        position: absolute;
+        top: 1325px;
+        left: 1045px;
+    }
+
+    #ptDet1 th,
+    #ptDet2 th {
+        text-align: right;
+    }
+
+    @media only screen and (max-width: 600px) {
+        div#wholeDiv {
+            width: 95%;
+            font-size: 11px;
+        }
+
+        #yearError {
+            left: 60px;
+        }
+
+        #expiryYearDiv {
+            top: -54px;
+        }
+
+        #visaImage {
+            position: relative;
+            top: -58px;
+            left: 275px;
+        }
+
+        #mastercardImage {
+            position: relative;
+            top: -48px;
+            left: 210px;
+        }
+    }
+</style>
+
+<section style="position:relative;top:60px;height:auto;" id="hero" class="d-flex align-items-center">
+    <div id="wholeDiv">
+        <fieldset style="background-color:white;margin-left:auto;margin-right:auto;width:100%;">
+            {% if booking == 'error' %}
+            <div>
+                <h1 style="text-align:center;font-size:100px;">Error Retrieving Booking Data</h1>
+                <a href="/" style="text-align:center;"><button>Return</button></a>
+            </div>
+            {% else %}
+
+                <div style="padding:10px;">
+                    <h1 class="display-4"></h1>
+                    <h2 style="text-align:center;">Consultation Invoice</h2>
+
+                    <span>Visit Information</span>
+                    <fieldset style="border:1px solid black;box-shadow: 2px 2px;">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-borderless">
+                                <tr>
+                                    <td>
+                                    <table id="ptDet1" style="text-align:left;display:block;float:left;width:100%;" class="table table-sm table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Name:</th>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">NRIC:</th>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Age:</th>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Phone No:</th>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Email:</th>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </td>
+
+                                    <td>
+                                    <table id="ptDet2" style="text-align:left;display:inline-block;float:right;" class="table table-sm table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Invoice No:</th>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Visit No:</th>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Date of Consult:</th>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                    <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <th style="width:auto;text-align:center;" colspan="2" scope="col">Description</th>
+                            <th scope="col" style="text-align:center;width:150px;">Quantity</th>
+                            <th scope="col" style="text-align:center;width:100px;">Total Cost</th>
+                        </thead>
+                        <tbody>
+                            <tr style="height:35px;">
+                                <td colspan="2"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th colspan="3" scope="col">Total Charges</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th colspan="3" scope="col">Total Claimed</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="height:50px;"></td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">Total Amount To Be Paid</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                    </fieldset>
+
+                </div>
+        </fieldset>
+                <br>
+        <fieldset style="background-color:white;margin-left:auto;margin-right:auto;width:100%;padding:10px;">
+                <div>
+                    <h1 class="display-4" style="text-align:center;">Banking Details</h1>
+                    <fieldset style="border:1px solid black;box-shadow: 2px 2px;padding:5px;">
+                        <form method="POST">
+                            <div class="form-group">
+                                {{ render_field(form.street, class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.city, class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.zip, class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.country, class="form-control", style="height:44px;") }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.cardType, class="form-control", style="height:44px;") }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.creditName, class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.creditNum, class="form-control", onkeyup="checkCredNum()", type="number", placeholder="XXXX-XXXX-XXXX-XXXX") }}
+                                <div id="visa" style="display:none;color:red;">Visa</div><img style="display:none;" width="25px" height="15px" id="visaImage" src="{{ url_for('static', filename='assets/img/visa.png') }}"><div style="display:none;color:red;" id="mastercard">MasterCard<img id="mastercardImage" width="35px" height="25px" src="{{ url_for('static', filename='assets/img/mastercard.png') }}"</div>
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.expiryMonth, placeholder="MM", type="number") }}
+                                <small><div id="monthError"></div></small>
+                                <div id="expiryYearDiv">{{ render_field(form.expiryYear, placeholder="YYYY", type="number") }}</div>
+                                <small><div id="yearError"></div></small>
+                            </div>
+                            <div class="form-group">
+                                {{ render_field(form.cvv, class="form-control", type="number", style="position:relative;top:-10px;") }}
+                            </div>
+                            <span style="color:blue;"><input id="keepDet" name="keepDet" type="checkbox" value="True"><label for="keepDet">&nbsp;Keep payment details?</label></span>
+                            <input type="submit" value="Proceed to checkout" style="float:right;" class="btn btn-primary" onclick="return verify()"/>
+                            <div style="display:none;">{{ form.keepDetails }}</div>
+                        </form>
+                    </fieldset>
+
+                </div>
+
+            {% endif %}
+        </fieldset>
+    </div>
+</section>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    creditNum = document.getElementById("creditNum");
+    visa = document.getElementById("visa");
+    visaImg = document.getElementById('visaImage');
+    mastercard = document.getElementById("mastercard");
+
+    function checkCredNum() {
+        var masterVer = /^(?:5[1-5][0-9]{14})$/;
+        var visaVer = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+
+        if (creditNum.value.match(masterVer)) {
+            mastercard.style.display = "block";
+            visa.style.display = "none";
+            visaImg.style.display = "none";
+        }
+        else if (creditNum.value.match(visaVer)) {
+            mastercard.style.display = "none";
+            visa.style.display = "block";
+            visa.innerHTML = "Visa";
+            visaImg.style.display = "block";
+        }
+        else {
+            mastercard.style.display = "none";
+            visa.style.display = "block";
+            visa.innerHTML = "Invalid card";
+            visaImg.style.display = "none";
+        }
+    }
+
+    expMonth = document.getElementById('expiryMonth');
+    expYear = document.getElementById('expiryYear');
+    yearError = document.getElementById('yearError');
+    monthError = document.getElementById('monthError');
+
+    function verify() {
+        if (parseInt(expMonth.value) < 1 || parseInt(expMonth.value) > 12) {
+            monthError.style.display = "inline-block";
+            monthError.innerHTML = "Enter valid Month";
+            return false;
+        }
+        else if (parseInt(expYear.value) < 2021 || parseInt(expYear.value) > 3000) {
+            yearError.style.display = "block";
+            yearError.innerHTML = "Enter valid Year";
+            return false;
+        }
+        monthError.style.display = "none";
+        yearError.style.display = "none";
+
+        keepCheckbox = document.getElementById("keepDet");
+        if (keepCheckbox.checked == true) {
+            document.getElementById("keepDetails").value = 'keep';
+        }
+        else {
+            document.getElementById("keepDetails").value = 'donotkeep';
+        }
+    }
+
+</script>
+
+{% endblock %}
